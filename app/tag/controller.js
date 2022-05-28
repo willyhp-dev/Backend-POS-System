@@ -28,7 +28,7 @@ const store = async (req, res) => {
 };
 const update = async (req, res) => {
   const name = req.body;
-  const id = req.params.id;
+  const id = req.params;
   try {
     let tags = await Tag.findByIdAndUpdate({ _id: ObjectId(id) }, name,{run:true, runValidators:true});
     return res.json(tags);
@@ -37,7 +37,7 @@ const update = async (req, res) => {
   }
 };
 const destroy = async (req, res) => {
-  const id = req.params.id;
+  const id = req.params;
   try {
     let tags = await Tag.findByIdAndDelete({ _id: ObjectId(id) });
     return res.json(tags);

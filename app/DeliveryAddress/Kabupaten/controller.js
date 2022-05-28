@@ -1,7 +1,7 @@
 const Kabupaten = require("./model");
 const { ObjectId } = require("MongoDB");
 const index = async (req, res) => {
-  const search = req.query;
+  const {search =""} = req.query;
   let criteria = {};
   if (search.length) {
     criteria = { ...criteria, name: { $regex: `${search}`, $options: "i" } };
