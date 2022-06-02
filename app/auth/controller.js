@@ -93,10 +93,12 @@ const me = (req, res, next) => {
   next(error);
 };
 const getdata = async (req, res) => {
+  let count = await User.find().countDocuments();
   await User.find()
     .then((result) =>
       res.json({
         data: result,
+        count:count
       })
     )
     .catch((error) => res.json(error));

@@ -7,8 +7,13 @@ const index = async (req, res) => {
   if (search.length) {
     criteria ={...criteria, name:{$regex:search, $options:"i"}}
   }
+  let count = await Tag.find().countDocuments();
+
   await Tag.find(criteria)
-    .then((result) => res.send(result))
+    .then((result) => res.json({
+      data: result,
+      count:count,
+    }))
     .catch((error) => res.send(error));
 };
 const detail = async (req, res) => {

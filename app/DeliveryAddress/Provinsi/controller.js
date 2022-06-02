@@ -3,7 +3,7 @@ const { ObjectId } = require("MongoDb");
 
 const index = async (req, res, next) => {
   const { search = "" } = req.query;
-  const criteria = {};
+  let criteria = {};
   if (search.length) {
     criteria = { ...criteria, name: { $regex: `${search}`, $options: "i" } };
   }

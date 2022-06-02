@@ -29,6 +29,9 @@ const policies = {
     can("update", "product", { user_id: user._id });
     can("delete", "product", { user_id: user._id });
     can("detail", "product", { user_id: user._id });
+    can("public", "product", { user_id: user._id });
+    can("updateCategory", "product", { user_id: user._id });
+    can("updateTag", "product", { user_id: user._id });
     can("read", "category");
     can("create", "category", { user_id: user._id });
     can("update", "category", { user_id: user._id });
@@ -50,6 +53,8 @@ const policies = {
     can("update", "User", { user_id: user._id });
     can("read", "Cart", { user_id: user._id });
     can("update", "Cart", { user_id: user._id });
+    can("delete", "Cart", { user_id: user._id });
+    can("updateqty", "Cart", { user_id: user._id });
     can("view", "DeliveryAddress", { user_id: user._id });
     can("create", "DeliveryAddress", { user_id: user._id });
     can("update", "DeliveryAddress", { user_id: user._id });

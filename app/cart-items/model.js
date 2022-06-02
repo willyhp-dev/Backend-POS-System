@@ -8,14 +8,13 @@ const CartitemSchema = new mongoose.Schema(
       required: [true, "name must be filled"],
       minlength: [5, "Panjang nama Makanan minimal 3 karakter"],
     },
-    qty: {
-      type: Number,
-      required: [true, "Harus Isi qty item"],
-      minlength: [1, "minimal 1 qty item"],
-    },
-    price: {
+    subtotal: {
       type: Number,
       default: 0,
+    },
+    qty: {
+      type: Number,
+      default:0
     },
     image_url: String,
     user: {

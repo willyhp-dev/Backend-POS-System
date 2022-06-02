@@ -17,16 +17,21 @@ const ProductSchema = new mongoose.Schema({
         type: String,
         maxlength:[1000, 'Panjang deskripsi maksimal 1000 karakter']
     },
-
-      image_url: {
+     image_url: {
           type: String,
           default:0
   },
+  public: {
+    type: String,
+    default: "Not Public"
+     },
     category: {
       type: Schema.Types.ObjectId,
-      ref:'Category'
+      ref: 'Category',
+      
+   
   },
-  Tag: {
+   tag: {
     type: Schema.Types.ObjectId,
     ref:'Tag'
     }

@@ -25,12 +25,11 @@ const index = async (req, res, next) => {
     }
     if (tags.length) {
       let tagsResult = await Tag.find({ name: { $in: tags } });
-      if (tagsResult.length>0) {
+      if (tagsResult.length > 0) {
         criteria = {
           ...criteria,
           tags: { $in: tagsResult.map((tag) => tag._id) },
-        }
-        
+        };
       }
     }
     let count = await Product.find(criteria).countDocuments();
@@ -38,10 +37,10 @@ const index = async (req, res, next) => {
       .skip(skip)
       .limit(limit)
       .populate("category")
-      .populate("Tag");
+      .populate("tag");
     return res.json({
       data: products,
-      count,
+      count: count,
     });
   } catch (err) {
     next(err);
@@ -66,29 +65,9 @@ const detail = async (req, res, next) => {
 const store = async (req, res) => {
   const { name, price, description, category, tag } = req.body;
   const image = req.file;
-  let categori = "";
-  let tags = [];
+
   try {
-    if (category) {
-      await Category.find({ name: { $regex: category, $options: "i" } })
-        .then((result) => {
-          categori = result[0]._id;
-        })
-        .catch((error) => res.send(error));
-    } else {
-      delete category;
-    }
-    if (tag && tag.length > 0) {
-      await Tag.find({ name: { $in: tag } })
-        .then((result) => {
-          if (result.length) {
-            tags = result.map((tagz) => tagz._id);
-          } else {
-            delete tag;
-          }
-        })
-        .catch((error) => res.send(error));
-    }
+    
     if (image) {
       let tmp_path = image.path;
       let originalExt =
@@ -109,8 +88,8 @@ const store = async (req, res) => {
             name,
             price,
             description,
-            category: categori,
-            tag: tags,
+            category: null,
+            tag: null,
             image_url: filename,
           });
           return res.send(product);
@@ -131,8 +110,8 @@ const store = async (req, res) => {
         name,
         description,
         price,
-        category: categori,
-        tag: tags,
+        category: null,
+        tag: null,
       });
       product.save();
       return res.send(product);
@@ -148,30 +127,30 @@ const store = async (req, res) => {
   }
 };
 const update = async (req, res) => {
-  const { name, price, description, category, tag } = req.body;
+  const { name, price, description } = req.body;
   const image = req.file;
   const id = req.params.id;
-  let categori = "";
-  let tags = [];
+  // let categori = "";
+  // let tags = [];
   try {
-    if (category) {
-      await Category.find({ name: { $regex: category, $options: "i" } })
-        .then((result) => {
-          categori = result[0]._id;
-        })
-        .catch((error) => res.send(error));
-    } else {
-      delete category;
-    }
-    if (tag && tag.length > 0) {
-      await Tag.find({ name: { $in: tag } })
-        .then((result) => {
-          tags.push(result.map((tagz) => tagz._id));
-        })
-        .catch((error) => res.send(error));
-    } else {
-      delete tag;
-    }
+    //   if (category) {
+    //     await Category.find({ name: { $regex: category, $options: "i" } })
+    //       .then((result) => {
+    //         categori = result[0]._id;
+    //       })
+    //       .catch((error) => res.send(error));
+    //   } else {
+    //     delete category;
+    //   }
+    //   if (tag && tag.length > 0) {
+    //     await Tag.find({ name: { $in: tag } })
+    //       .then((result) => {
+    //         tags.push(result.map((tagz) => tagz._id));
+    //       })
+    //       .catch((error) => res.send(error));
+    //   } else {
+    //     delete tag;
+    //   }
     if (image) {
       let tmp_path = image.path;
       let originalExt =
@@ -194,8 +173,8 @@ const update = async (req, res) => {
                 name,
                 price,
                 description,
-                category: categori,
-                tag: tags,
+                // category: categori,
+                // tag: tags,
                 image_url: filename,
               },
             }
@@ -228,9 +207,9 @@ const update = async (req, res) => {
             name,
             price,
             description,
-            category: categori,
-            tag: tags,
-            image_url: filename,
+            // category: categori,
+            // tag: tags,
+            // image_url: filename,
           },
         }
       )
@@ -275,10 +254,85 @@ const destroy = async (req, res) => {
     });
   }
 };
+
+const public = async (req, res) => {
+  try {
+    const id = req.params.id;
+    let public = "Public";
+    let response = await Product.updateOne(
+      { _id: ObjectId(id) },
+      { public: public }
+    );
+    return res.json(response);
+  } catch (error) {
+    res.json(error);
+  }
+};
+const updateTag = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const {tag} = req.body;
+    let tags = [];
+    if (tag && tag.length > 0) {
+          await Tag.find({ name: { $in: tag } })
+            .then((result) => {
+              if (result.length) {
+                tags = result.map((tagz) => tagz._id);
+              } else {
+                delete tag;
+              }
+            })
+            .catch((error) => res.send(error));
+        }
+  
+    let response = await Product.updateOne({
+      _id: ObjectId(id)
+    }, {
+      $set: {
+        tag:tags
+      },
+    });
+    return res.json(response);
+  } catch (error) {
+    return res.json(error);
+  }
+};
+const updateCategory = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const {category} = req.body;
+    let categori = "";
+    if (category) {
+          await Category.find({ name: { $regex: category, $options: "i" } })
+            .then((result) => {
+              categori = result[0]._id;
+            })
+            .catch((error) => res.send(error));
+        } else {
+          delete category;
+        }
+   
+    let response = await Product.updateOne({
+      _id: ObjectId(id)
+    }, {
+      $set: {
+        category:categori
+      }
+    });
+    return res.json(response);
+  } catch (error) {
+    return res.json(error);
+    
+  }
+}
+
 module.exports = {
   index,
   store,
   detail,
   destroy,
   update,
+  public,
+  updateCategory,
+  updateTag,
 };

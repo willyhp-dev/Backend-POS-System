@@ -1,5 +1,5 @@
 const router = require('express').Router();
 const InvoiceController = require('./controller');
-router.get('/show', InvoiceController.show);
+router.get('/Invoice', InvoiceController.show);
 
 module.exports = router;
