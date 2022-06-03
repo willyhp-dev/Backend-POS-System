@@ -92,7 +92,7 @@ const policiesuser = (user) => {
   if (user && typeof policies[user.role] == "function") {
     policies[user.role](user, builder);
   } else {
-    console.log(user);
+   
     policies["guess"][user.builder];
   }
   return new Ability(builder.rules);

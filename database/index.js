@@ -7,11 +7,10 @@ const db = mongoose.connect(mongoURI, {
 });
 db.then(() => {
   // eslint-disable-next-line
-  console.log("Database Connection Established...!");
+  ("Database Connection Established...!");
 }).catch((err) => {
   // eslint-disable-next-line
-  console.log("Error: Database connection can not be established...!", err);
+  "Error: Database connection can not be established...!", err;
 });
 
 module.exports = db;
-

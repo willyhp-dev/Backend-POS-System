@@ -35,12 +35,13 @@ const update = async (req, res) => {
   }
 };
 const index = async (req, res, next) => {
-  let count = CardItems.find({ user: req.user._id }).countDocuments();
+  let count = await CardItems.find({ user: req.user._id }).countDocuments();
   await CardItems.find({ user: req.user._id })
     .populate("product")
     .then((result) => {
       res.json({
         data: result,
+        count:count
       });
     })
     .catch((error) => res.json(error));

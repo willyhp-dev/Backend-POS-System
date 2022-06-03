@@ -33,7 +33,7 @@ const User = require('../app/user/model');
 function police_check(action, subject) {
     return function (req, res, next) {
         let policy = policiesuser(req.user);
-        console.log(req);
+      
         if (!policy.can(action, subject)) {
             return res.json({
                 error: 1,
