@@ -8,8 +8,8 @@ const OrderSchema = new mongoose.Schema(
   {
     status: {
       type: String,
-      enum: ["waiting_payment", "processing", "in_delivery", "delivered"],
-      default: "waiting_payment",
+      enum: ["waiting payment", "processing", "in rsdelivery", "delivered"],
+      default: "waiting payment",
     },
     delivery_fee: {
       type: Number,

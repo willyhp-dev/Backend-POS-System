@@ -1,8 +1,10 @@
 const CartItem = require("../cart-items/model");
 const DeliveryAddress = require("../DeliveryAddress/model");
+const { ObjectId } = require("mongodb");
 const Order = require("../order/model");
 const { Types } = require("mongoose");
 const OrderItem = require("../order-items/model");
+const { json } = require("express");
 
 const store = async (req, res, next) => {
   try {
@@ -56,13 +58,12 @@ const store = async (req, res, next) => {
   }
   next();
 };
+
 const index = async (req, res, next) => {
   try {
-    let { skip = 0, limit = 10 } = req.query;
+    const { search = "" } = req.query;
     let count = await Order.find({ user: req.user._id }).countDocuments();
-    let orders = await Order.find({ user: req.user._id })
-      .skip(parseInt(skip))
-      .limit(parseInt(limit))
+    let orders = await Order.find({ user: req.user._id ,status: { $regex: `${search}`, $options: "i" }})
       .populate("order_items")
       .sort("-createdAt");
     return res.json({
@@ -80,7 +81,20 @@ const index = async (req, res, next) => {
     next(error);
   }
 };
+
+const update = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const { status } = req.body;
+    await Order.updateOne({ _id: ObjectId(id) }, { $set: { status: status } });
+    return res.json(Order);
+  } catch (error) {
+    res.json(error);
+  }
+};
+
 module.exports = {
   store,
   index,
+  update,
 };

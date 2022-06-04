@@ -17,6 +17,8 @@ const policies = {
     can("read", "address");
     can("view", "Order");
     can("create", "Order");
+    can("detail", "Order", { user_id: user._id });
+    can("update", "Order", { user_id: user._id });
     can("read", "Order", { user_id: user._id });
     can("update", "User", { user_id: user._id });
     can("read", "Cart", { user_id: user._id });
@@ -49,6 +51,8 @@ const policies = {
     can("delete", "address", { user_id: user._id });
     can("view", "Order");
     can("create", "Order");
+    can("detail", "Order", { user_id: user._id });
+    can("update", "Order", { user_id: user._id });
     can("read", "Order", { user_id: user._id });
     can("update", "User", { user_id: user._id });
     can("read", "Cart", { user_id: user._id });

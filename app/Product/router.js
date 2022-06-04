@@ -5,7 +5,6 @@ const ProductController = require("./controller");
 const { police_check } = require("../../middlewares");
 router.get(
   "/products?:search",
-  police_check("read", "product"),
   ProductController.index
 );
 router.get(
