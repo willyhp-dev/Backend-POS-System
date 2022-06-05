@@ -4,8 +4,7 @@ const { policiesuser } = require("../../utils");
 
 const show = async (req, res, next) => {
   try {
-    let { order_id } = req.params;
-   
+    let { order_id } = req.params;   
     let policy = policiesuser(req.user);
     let subjective = subject("Invoice", {
       ...invoice,
