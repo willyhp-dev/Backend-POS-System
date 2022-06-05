@@ -67,7 +67,6 @@ const store = async (req, res) => {
   const image = req.file;
 
   try {
-    
     if (image) {
       let tmp_path = image.path;
       let originalExt =
@@ -88,8 +87,8 @@ const store = async (req, res) => {
             name,
             price,
             description,
-            category: null,
-            tag: null,
+            category,
+            tag,
             image_url: filename,
           });
           return res.send(product);
@@ -110,8 +109,8 @@ const store = async (req, res) => {
         name,
         description,
         price,
-        category: null,
-        tag: null,
+        category,
+        tag,
       });
       product.save();
       return res.send(product);
@@ -271,27 +270,30 @@ const public = async (req, res) => {
 const updateTag = async (req, res) => {
   try {
     const id = req.params.id;
-    const {tag} = req.body;
+    const { tag } = req.body;
     let tags = [];
     if (tag && tag.length > 0) {
-          await Tag.find({ name: { $in: tag } })
-            .then((result) => {
-              if (result.length) {
-                tags = result.map((tagz) => tagz._id);
-              } else {
-                delete tag;
-              }
-            })
-            .catch((error) => res.send(error));
-        }
-  
-    let response = await Product.updateOne({
-      _id: ObjectId(id)
-    }, {
-      $set: {
-        tag:tags
+      await Tag.find({ name: { $in: tag } })
+        .then((result) => {
+          if (result.length) {
+            tags = result.map((tagz) => tagz._id);
+          } else {
+            delete tag;
+          }
+        })
+        .catch((error) => res.send(error));
+    }
+
+    let response = await Product.updateOne(
+      {
+        _id: ObjectId(id),
       },
-    });
+      {
+        $set: {
+          tag: tags,
+        },
+      }
+    );
     return res.json(response);
   } catch (error) {
     return res.json(error);
@@ -300,31 +302,33 @@ const updateTag = async (req, res) => {
 const updateCategory = async (req, res) => {
   try {
     const id = req.params.id;
-    const {category} = req.body;
+    const { category } = req.body;
     let categori = "";
     if (category) {
-          await Category.find({ name: { $regex: category, $options: "i" } })
-            .then((result) => {
-              categori = result[0]._id;
-            })
-            .catch((error) => res.send(error));
-        } else {
-          delete category;
-        }
-   
-    let response = await Product.updateOne({
-      _id: ObjectId(id)
-    }, {
-      $set: {
-        category:categori
+      await Category.find({ name: { $regex: category, $options: "i" } })
+        .then((result) => {
+          categori = result[0]._id;
+        })
+        .catch((error) => res.send(error));
+    } else {
+      delete category;
+    }
+
+    let response = await Product.updateOne(
+      {
+        _id: ObjectId(id),
+      },
+      {
+        $set: {
+          category: categori,
+        },
       }
-    });
+    );
     return res.json(response);
   } catch (error) {
     return res.json(error);
-    
   }
-}
+};
 
 module.exports = {
   index,
