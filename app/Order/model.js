@@ -15,6 +15,10 @@ const OrderSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    total: {
+      type: Number,
+      default: 0
+    },
     delivery_address: {
       provinsi: { type: String, required: [true, "provinsi Harus Diisi"] },
       kabupaten: { type: String, required: [true, "Kabupaten harus Diisi"] },
@@ -31,10 +35,10 @@ const OrderSchema = new mongoose.Schema(
 
   { timestamps: true }
 );
-// OrderSchema.plugin( AutoIncrement, { inc_field: 'order_number' });
-// OrderSchema.virtual('items_count').get(function () {
-//     return this.order_items.reduce((total, item) => total += (item.price * item.qty), 0);
-// });
+OrderSchema.plugin( AutoIncrement, { inc_field: 'order_number' });
+OrderSchema.virtual('items_count').get(function () {
+    return this.order_items.reduce((total, item) => total += (item.price * item.qty), 0);
+});
 // OrderSchema.post('save', async function () {
 //     let sub_total = this.order_items.reduce((total, item) => total += (item.price * item.qty), 0);
 //     let invoice = new Invoice({

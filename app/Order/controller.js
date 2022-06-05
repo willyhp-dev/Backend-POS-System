@@ -8,7 +8,7 @@ const { json } = require("express");
 
 const store = async (req, res, next) => {
   try {
-    let { delivery_fee, delivery_address } = req.body;
+    let { delivery_fee, delivery_address,total } = req.body;
     let items = await CartItem.find({ user: req.user._id }).populate("product");
     if (!items) {
       return res.json({
@@ -24,6 +24,7 @@ const store = async (req, res, next) => {
       _id: new Types.ObjectId(),
       status: "waiting_payment",
       delivery_fee: delivery_fee,
+      total:total,
       delivery_address: {
         provinsi: address[0].provinsi,
         kabupaten: address[0].kabupaten,
