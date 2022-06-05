@@ -31,22 +31,22 @@ const OrderSchema = new mongoose.Schema(
 
   { timestamps: true }
 );
-OrderSchema.plugin( AutoIncrement, { inc_field: 'order_number' });
-OrderSchema.virtual('items_count').get(function () {
-    return this.order_items.reduce((total, item) => total += (item.price * item.qty), 0);
-});
-OrderSchema.post('save', async function () {
-    let sub_total = this.order_items.reduce((total, item) => total += (item.price * item.qty), 0);
-    let invoice = new Invoice({
-        user: this.user,
-        order: this._id,
-        sub_total: sub_total,
-        delivery_fee: parsetInt(this.delivery_fee),
-        total: parseInt(sub_total + this.delivery_fee),
-        delivery_address: this.delivery_address
-    });
-    await invoice.save();
-});
+// OrderSchema.plugin( AutoIncrement, { inc_field: 'order_number' });
+// OrderSchema.virtual('items_count').get(function () {
+//     return this.order_items.reduce((total, item) => total += (item.price * item.qty), 0);
+// });
+// OrderSchema.post('save', async function () {
+//     let sub_total = this.order_items.reduce((total, item) => total += (item.price * item.qty), 0);
+//     let invoice = new Invoice({
+//         user: this.user,
+//         order: this._id,
+//         sub_total: sub_total,
+//         delivery_fee: parsetInt(this.delivery_fee),
+//         total: parseInt(sub_total + this.delivery_fee),
+//         delivery_address: this.delivery_address
+//     });
+//     await invoice.save();
+// });
 
 const Order = mongoose.model("Order", OrderSchema);
 module.exports = Order;
