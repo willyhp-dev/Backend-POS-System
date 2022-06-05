@@ -6,7 +6,7 @@ const index = async (req, res) => {
   if (search.length) {
     criteria = { ...criteria, name: { $regex: `${search}`, $options: "i" } };
   }
-  let count = await Category.find().countDocuments();
+  let count = await Category.find(criteria).countDocuments();
   await Category.find(criteria)
     .then((result) => res.json({
       data: result,
