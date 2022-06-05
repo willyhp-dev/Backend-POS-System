@@ -10,4 +10,5 @@ module.exports = {
   dbuser: process.env.DB_USER,
   dbPass: process.env.DB_PASS,
   dbName: process.env.DB_NAME,
+  imageurl : process.env.HEROKU_SERVER_API
 };
