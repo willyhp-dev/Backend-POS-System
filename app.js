@@ -54,3 +54,4 @@ app.use("/",function (err, req, res, next) {
 });
 app.listen(process.env.PORT || 4000, console.log("Server is Running"));
 
+module.exports = app;
