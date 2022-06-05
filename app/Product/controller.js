@@ -65,6 +65,31 @@ const detail = async (req, res, next) => {
 const store = async (req, res) => {
   const { name, price, description, category, tag } = req.body;
   const image = req.file;
+  let categori = "";
+  let tags = [];
+
+  if (tag && tag.length > 0) {
+    await Tag.find({ name: { $in: tag } })
+      .then((result) => {
+        if (result.length) {
+          tags = result.map((tagz) => tagz._id);
+        } else {
+          delete tag;
+        }
+      });
+    
+     
+      if (category) {
+        await Category.find({ name: { $regex: category, $options: "i" } })
+          .then((result) => {
+            categori = result[0]._id;
+          })
+          .catch((error) => res.send(error));
+      } else {
+        delete category;
+      }
+    
+    
 
   try {
     if (image) {
@@ -87,8 +112,8 @@ const store = async (req, res) => {
             name,
             price,
             description,
-            category,
-            tag,
+            category:categori,
+            tag:tags,
             image_url: filename,
           });
           return res.send(product);
@@ -109,8 +134,8 @@ const store = async (req, res) => {
         name,
         description,
         price,
-        category,
-        tag,
+        category:categori,
+        tag:tags,
       });
       product.save();
       return res.send(product);
