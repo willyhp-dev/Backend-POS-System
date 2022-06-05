@@ -1,7 +1,7 @@
 const CartItem = require("../cart-items/model");
 const DeliveryAddress = require("../DeliveryAddress/model");
 const { ObjectId } = require("mongodb");
-const Order = require("../order/model");
+const Order = require("./model");
 const { Types } = require("mongoose");
 const OrderItem = require("../order-items/model");
 const { json } = require("express");
