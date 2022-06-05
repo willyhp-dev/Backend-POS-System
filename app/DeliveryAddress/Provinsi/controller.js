@@ -1,5 +1,5 @@
 const Provinsi = require("./model");
-const { ObjectId } = require("MongoDb");
+const { ObjectId } = require("mongodb");
 
 const index = async (req, res, next) => {
   const { search = "" } = req.query;

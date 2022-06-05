@@ -1,5 +1,5 @@
 const Kecamatan = require("./model");
-const { ObjectId } = require("MongoDB");
+const { ObjectId } = require("mongodb");
 
 const index = async (req, res) => {
   const {search =""} = req.query;
