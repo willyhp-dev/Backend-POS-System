@@ -21,8 +21,14 @@ const policies = {
     can("update", "Order", { user_id: user._id });
     can("read", "Order", { user_id: user._id });
     can("update", "User", { user_id: user._id });
-    can("read", "Cart", { user_id: user._id });
-    can("read", "Invoice", { user_id: user._id });
+    can("read", "Order", { user_id: user._id });
+    can("update", "User", { user_id: user._id });
+    can("view", "Order");
+    can("create", "Order");
+    can("detail", "Order", { user_id: user._id });
+    can("update", "Order", { user_id: user._id });
+    can("read", "Order", { user_id: user._id });
+    can("update", "User", { user_id: user._id });
     can("read", "payment");
   },
   admin(user, { can }) {
