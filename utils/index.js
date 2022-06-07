@@ -17,6 +17,10 @@ const policies = {
     can("read", "address");
     can("view", "Order");
     can("create", "Order");
+    can("read", "Cart", { user_id: user._id });
+    can("update", "Cart", { user_id: user._id });
+    can("delete", "Cart", { user_id: user._id });
+    can("updateqty", "Cart", { user_id: user._id });
     can("detail", "Order", { user_id: user._id });
     can("update", "Order", { user_id: user._id });
     can("read", "Order", { user_id: user._id });
@@ -102,7 +106,6 @@ const policiesuser = (user) => {
   if (user && typeof policies[user.role] == "function") {
     policies[user.role](user, builder);
   } else {
-   
     policies["guess"][user.builder];
   }
   return new Ability(builder.rules);
