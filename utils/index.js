@@ -18,6 +18,10 @@ const policies = {
     can("view", "Order");
     can("create", "Order");
     can("view", "DeliveryAddress");
+    can("create", "DeliveryAddress");
+    can("update", "DeliveryAddress");
+    can("delete", "DeliveryAddress");
+    can("detail", "address");
     can("read", "Cart", { user_id: user._id });
     can("update", "Cart", { user_id: user._id });
     can("delete", "Cart", { user_id: user._id });

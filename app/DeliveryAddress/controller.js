@@ -5,8 +5,8 @@ const { policiesuser } = require("../../utils");
 const { subject } = require("@casl/ability");
 const index = async (req, res, next) => {
   const { skip = 0, limit = 10 } = req.query;
-  let count = await DeliveryAddress.find({ user: req.user._id }).countDocuments;
-  await DeliveryAddress.find({ user: req.user._id })
+  let count = await DeliveryAddress.find().countDocuments;
+  await DeliveryAddress.find()
     .skip(skip)
     .limit(limit)
     .sort("-createdAt")
