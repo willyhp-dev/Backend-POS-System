@@ -17,11 +17,6 @@ const policies = {
     can("read", "address");
     can("view", "Order");
     can("create", "Order");
-    can("view", "DeliveryAddress");
-    can("create", "DeliveryAddress");
-    can("update", "DeliveryAddress");
-    can("delete", "DeliveryAddress");
-    can("detail", "address");
     can("read", "Cart", { user_id: user._id });
     can("update", "Cart", { user_id: user._id });
     can("delete", "Cart", { user_id: user._id });
@@ -74,10 +69,10 @@ const policies = {
     can("update", "Cart", { user_id: user._id });
     can("delete", "Cart", { user_id: user._id });
     can("updateqty", "Cart", { user_id: user._id });
-    can("view", "DeliveryAddress");
-    can("create", "DeliveryAddress");
-    can("update", "DeliveryAddress");
-    can("delete", "DeliveryAddress");
+    can("view", "DeliveryAddress", { user_id: user._id });
+    can("create", "DeliveryAddress", { user_id: user._id });
+    can("update", "DeliveryAddress", { user_id: user._id });
+    can("delete", "DeliveryAddress", { user_id: user._id });
     can("read", "Invoice", { user_id: user._id });
     can("read", "kabupaten");
     can("detail", "kabupaten", { user_id: user._id });
@@ -99,7 +94,11 @@ const policies = {
     can("create", "provinsi", { user_id: user._id });
     can("update", "provinsi", { user_id: user._id });
     can("delete", "provinsi", { user_id: user._id });
-   
+    can("read", "payment");
+    can("detail", "payment", { user_id: user._id });
+    can("create", "payment", { user_id: user._id });
+    can("update", "payment", { user_id: user._id });
+    can("delete", "payment", { user_id: user._id });
   },
 };
 const policiesuser = (user) => {
